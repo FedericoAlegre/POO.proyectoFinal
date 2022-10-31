@@ -21,6 +21,7 @@ public class CondimentsView extends javax.swing.JFrame {
      */
     public CondimentsView() {
         initComponents();
+        this.lockSaveComponents(false);
     }
 
     /**

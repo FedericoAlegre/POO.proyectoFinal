@@ -29,6 +29,11 @@ public class TortillaController {
         }
 
     }
+    
+    public Tortilla instanceTortilla(String n){
+        return new Tortilla(n);
+    }
+    
 
     public void createTortilla(String n) throws Exception {
         Tortilla t = new Tortilla(n);

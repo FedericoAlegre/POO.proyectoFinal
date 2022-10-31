@@ -26,6 +26,10 @@ public class RellenoController {
         }
     }
     
+    public Relleno instanceRelleno(String n){
+        return new Relleno(n);
+    }
+    
     public void createRelleno(String n) throws Exception {
         Relleno s = new Relleno(n);
         em.getTransaction().begin();

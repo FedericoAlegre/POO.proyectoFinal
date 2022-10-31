@@ -22,6 +22,10 @@ public class SalsaController {
         }
     }
     
+    public Salsa instanceSalsa(String n, int p){
+        return new Salsa(n, p);
+    }
+    
     public void createSalsa(String n, int p) throws Exception {
         Salsa s = new Salsa(n, p);
         em.getTransaction().begin();
@@ -47,9 +51,10 @@ public class SalsaController {
     
     public void updateSalsa(String n,int p, Long id) throws Exception{
         Salsa t = em.find(Salsa.class, id);
-        t.setNombre(n);
-        t.setPicor(p);
+        
         if (t!= null){
+            t.setNombre(n);
+            t.setPicor(p);
             em.getTransaction().begin();
             em.persist(t);
             em.getTransaction().commit();

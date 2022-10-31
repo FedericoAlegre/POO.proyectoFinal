@@ -1,6 +1,7 @@
 package proyecto_final.Models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,9 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Table(name = "Tacos")
+@NamedQuery(name = "list Tacos", query = "SELECT p FROM Taco p")
+@NamedQuery(name = "list Tacos by State", query = "SELECT p FROM Taco p WHERE p.estado = :e")
 public class Taco implements Serializable {
 
     @Id
@@ -26,6 +32,9 @@ public class Taco implements Serializable {
     private Relleno relleno3;
     @ManyToOne
     private Salsa salsa;
+    private TacoState estado;
+    @Temporal(DATE)
+    private Date fecha;
 
     public void setTortilla(Tortilla tortilla) {
         this.tortilla = tortilla;
@@ -70,14 +79,6 @@ public class Taco implements Serializable {
     public Taco() {
     }
 
-    public Taco(Tortilla tortilla, Relleno relleno1, Relleno relleno2, Relleno relleno3, Salsa salsa) {
-        this.tortilla = tortilla;
-        this.relleno1 = relleno1;
-        this.relleno2 = relleno2;
-        this.relleno3 = relleno3;
-        this.salsa = salsa;
-    }
-
     public Long getId() {
         return id;
     }
@@ -86,15 +87,43 @@ public class Taco implements Serializable {
         this.id = id;
     }
 
+    public Taco(Tortilla tortilla, Relleno relleno1, Relleno relleno2, Relleno relleno3, Salsa salsa, TacoState state, Date date) {
+        this.tortilla = tortilla;
+        this.relleno1 = relleno1;
+        this.relleno2 = relleno2;
+        this.relleno3 = relleno3;
+        this.salsa = salsa;
+        this.estado = state;
+        this.fecha = date;
+    }
+
+    public TacoState getState() {
+        return estado;
+    }
+
+    public Date getDate() {
+        return fecha;
+    }
+
+    public void setState(TacoState state) {
+        this.estado = state;
+    }
+
+    public void setDate(Date date) {
+        this.fecha = date;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.tortilla);
-        hash = 37 * hash + Objects.hashCode(this.relleno1);
-        hash = 37 * hash + Objects.hashCode(this.relleno2);
-        hash = 37 * hash + Objects.hashCode(this.relleno3);
-        hash = 37 * hash + Objects.hashCode(this.salsa);
+        int hash = 3;
+        hash = 31 * hash + Objects.hashCode(this.id);
+        hash = 31 * hash + Objects.hashCode(this.tortilla);
+        hash = 31 * hash + Objects.hashCode(this.relleno1);
+        hash = 31 * hash + Objects.hashCode(this.relleno2);
+        hash = 31 * hash + Objects.hashCode(this.relleno3);
+        hash = 31 * hash + Objects.hashCode(this.salsa);
+        hash = 31 * hash + Objects.hashCode(this.estado);
+        hash = 31 * hash + Objects.hashCode(this.fecha);
         return hash;
     }
 
@@ -125,13 +154,18 @@ public class Taco implements Serializable {
         if (!Objects.equals(this.relleno3, other.relleno3)) {
             return false;
         }
-        return Objects.equals(this.salsa, other.salsa);
+        if (!Objects.equals(this.salsa, other.salsa)) {
+            return false;
+        }
+        if (this.estado != other.estado) {
+            return false;
+        }
+        return Objects.equals(this.fecha, other.fecha);
     }
 
     @Override
     public String toString() {
-        return "Taco{" + "id=" + id + ", tortilla=" + tortilla + ", relleno1=" + relleno1 + ", relleno2=" + relleno2 + ", relleno3=" + relleno3 + ", salsa=" + salsa + '}';
+        return "Taco{" + "id=" + id + ", tortilla=" + tortilla + ", relleno1=" + relleno1 + ", relleno2=" + relleno2 + ", relleno3=" + relleno3 + ", salsa=" + salsa + ", state=" + estado + ", date=" + fecha + '}';
     }
-    
-    
+
 }
